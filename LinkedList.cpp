@@ -7,7 +7,7 @@ public:
     int val;
     Node* next;
 
-    Node(int data)
+    Node(int data) //Constructor
     {
         this->val = data;
         this->next = NULL;
@@ -67,6 +67,35 @@ void AddtoBack(Node** head, int val)
     return;
 }
 
+void AddtoLoc(Node** head, int loc, int val) //loc ->index
+{
+    if(*head == NULL)
+        *head = new Node(val);
+
+    int i = 0;
+    Node* curr = *head;
+    Node* prev = NULL;
+    while(curr != NULL)
+    {
+        if(i == loc)
+        {
+            if(prev == NULL)
+            {
+                AddtoFront(head, val);
+                return;
+            }
+            prev->next = new Node(val);
+            prev->next->next = curr;
+            return;
+        }
+        i++;
+        prev = curr;
+        curr = curr->next;
+    }
+
+    AddtoBack(head, val);
+}
+
 void RemoveFromFront(Node** head)
 {
     if(*head == NULL)
@@ -113,4 +142,11 @@ int main()
 
     RemoveFromBack(&list->head);
     PrintElements(list->head);
+
+    AddtoFront(&list->head, 12);
+    PrintElements(list->head);
+
+    AddtoLoc(&list->head, 4, 60);
+    PrintElements(list->head);
 }
+
