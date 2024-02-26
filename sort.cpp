@@ -36,9 +36,11 @@ void insertion_sort(int* arr, int len)
     for(int i = 1; i < len; i++)
     {
         int j = i-1;
-        while(j >= 0 && arr[i] < arr[j])
+        int key = arr[i];
+        while(j >= 0 && key < arr[j])
         {
-            swap(&arr[i], &arr[j]);
+            swap(&arr[j], &arr[j+1]);
+            j--;
         }
     }
 }
@@ -156,7 +158,7 @@ int main()
     //uncomment the necessary sort function to use
 
     //bubble_sort(arr, 5);
-    //insertion_sort(arr, 5);
+    insertion_sort(arr, 5);
     //selection_sort(arr, 5);
     //quick_sort(arr, 0, 4);
     //merge_sort(arr, 0, 4);
