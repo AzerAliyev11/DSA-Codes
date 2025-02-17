@@ -107,22 +107,23 @@ void RemoveFromBack(Node** head)
 
 void AddToLocation(Node** head, int val, int loc)
 {
+    int sizeofList = ListSize(*head);
+
     if(loc == 0)
     {
         AddToFront(head, val);
         return;
     }
 
-    int listSize = ListSize(*head);
-    if(loc >= listSize)
+    if(loc >= sizeofList)
     {
         AddToBack(head, val);
         return;
     }
 
-    Node* tmp = *head;
     int currentIndex = 0;
-    while(currentIndex != loc - 1 && tmp != nullptr)
+    Node* tmp = *head;
+    while(currentIndex != loc - 1)
     {
         tmp = tmp->next;
         currentIndex++;
@@ -136,14 +137,14 @@ void AddToLocation(Node** head, int val, int loc)
 int main()
 {
     LinkedList* list = new LinkedList();
-    AddToFront(&list->head, 5);
-    AddToFront(&list->head, 6);
-    AddToFront(&list->head, 7);
+    AddToBack(&list->head, 1);
+    AddToBack(&list->head, 2);
+    AddToBack(&list->head, 3);
+    AddToBack(&list->head, 4);
 
-    AddToBack(&list->head, 11);
-
-    AddToLocation(&list->head, 13, 2);
+    AddToLocation(&list->head, 7, 2);
     AddToLocation(&list->head, 21, 0);
+    AddToLocation(&list->head, 33, 10);
 
     PrintElements(list->head);
 }
