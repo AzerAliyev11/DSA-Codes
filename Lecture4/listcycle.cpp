@@ -13,25 +13,11 @@ int hasCycle(ListNode *head)
     ListNode* fast = head;
     ListNode* slow = head;
 
-    while(fast->next != nullptr)
+    while(fast != nullptr && fast->next != nullptr)
     {
-        if(slow != nullptr)
-        {
-            slow = slow->next;
-        }
-        else
-        {
-            return 0;
-        }
+        slow = slow->next;
+        fast = fast->next->next;
 
-        if(fast->next != nullptr)
-        {
-            fast = fast->next->next;
-        }
-        else
-        {
-            return 0;
-        }
 
         if(fast == slow)
             return 1;

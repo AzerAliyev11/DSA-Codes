@@ -29,18 +29,14 @@ ListNode* merge(ListNode *l1, ListNode *l2)
         tmp = tmp->next;
     }
 
-    while(l1 != nullptr)
+    if(l1 != nullptr)
     {
         tmp->next = l1;
-        l1 = l1->next;
-        tmp = tmp->next;
     }
 
-    while(l2 != nullptr)
+    if(l2 != nullptr)
     {
         tmp->next = l2;
-        l2 = l2->next;
-        tmp = tmp->next;
     }
 
     return ans->next;
