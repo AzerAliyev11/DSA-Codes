@@ -51,6 +51,17 @@ AVLTreeNode* leftRotate(AVLTreeNode* root) {
     return x;
 }
 
+AVLTreeNode* get_successor(AVLTreeNode* root) {
+    AVLTreeNode* successor = root;
+
+    while(root->left) {
+        root = root->left;
+        successor = root;
+    }
+
+    return successor;
+}
+
 AVLTreeNode* insert(AVLTreeNode* root, int val) {
     if(!root) {
         return new AVLTreeNode(val);
@@ -84,6 +95,54 @@ AVLTreeNode* insert(AVLTreeNode* root, int val) {
     return root;
 }
 
+AVLTreeNode* delete_node(AVLTreeNode* root, int val) {
+    if(!root)
+        return nullptr;
+
+    if(val < root->val) {
+        root->left = delete_node(root->left, val);
+    }
+    else if(val > root->val) {
+        root->right = delete_node(root->right, val);
+    }
+    else {
+        if(root->left == nullptr) {
+            AVLTreeNode* tmp = root->right;
+            delete root;
+            return tmp;
+        }
+
+        if(root->right == nullptr) {
+            AVLTreeNode* tmp = root->left;
+            delete root;
+            return tmp;
+        }
+
+        AVLTreeNode* successor = get_successor(root->right);
+        root->val = successor->val;
+        root->right = delete_node(root->right, successor->val);
+    }
+
+    int bf = balanceFactor(root);
+
+    if(bf > 1 && balanceFactor(root->left) >= 0) {
+        return rightRotate(root);
+    }
+    else if(bf > 1 && balanceFactor(root->left) == -1) {
+        root->left = leftRotate(root->left);
+        return rightRotate(root);
+    }
+    else if(bf < -1 && balanceFactor(root->right) <= 0) {
+        return leftRotate(root);
+    }
+    else if(bf < -1 && balanceFactor(root->right) == 1) {
+        root->right = rightRotate(root->right);
+        return leftRotate(root);
+    }
+
+    return root;
+}
+
 int main() {
     AVLTreeNode* root = new AVLTreeNode(30);
     root = insert(root, 40);
@@ -92,4 +151,12 @@ int main() {
     root = insert(root, 80);
     std::cout<<root->right->left->val<<std::endl;
 
+    root = delete_node(root, 30);
+    std::cout<<root->val<<std::endl;
+    std::cout<<root->right->val<<std::endl;
+
+
+    root = delete_node(root, 60);
+    std::cout<<root->val<<std::endl;
+    std::cout<<root->left->val<<std::endl;
 }
